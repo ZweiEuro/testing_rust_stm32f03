@@ -3,12 +3,13 @@
 
 use panic_probe as _;
 
-use stm32f0xx_hal as hal;
+use stm32f0xx_hal::{self as hal, timers};
 
 use crate::hal::{
     gpio::*,
     pac::{interrupt, Interrupt, Peripherals, TIM16},
     prelude::*,
+    stm32f0,
     time::Hertz,
     timers::*,
 };
@@ -50,6 +51,14 @@ fn TIM16() {
 
     led.toggle().ok();
     int.wait().ok();
+
+    unsafe {
+        stm32f0::stm32f0x0::TIM16::ptr()
+            .as_ref()
+            .unwrap()
+            .sr
+            .modify(|_, w| w.uif().clear_bit());
+    }
 }
 
 #[entry]
@@ -71,7 +80,7 @@ fn main() -> ! {
             *GLED.borrow(cs).borrow_mut() = Some(led);
 
             // Set up a timer expiring after 1s
-            let mut timer = Timer::tim16(p.TIM16, Hertz(1), &mut rcc);
+            let mut timer = Timer::tim16(p.TIM16, 1.hz(), &mut rcc);
 
             // Generate an interrupt when the timer expires
             timer.listen(Event::TimeOut);
