@@ -26,6 +26,7 @@ fn main() -> ! {
             cortex_m::asm::delay(8_000_000);
             led.set_low().ok();
             cortex_m::asm::delay(8_000_000);
+            defmt::panic!("test");
         }
     }
 
