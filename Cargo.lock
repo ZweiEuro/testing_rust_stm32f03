@@ -85,6 +85,7 @@ dependencies = [
  "cortex-m-rt",
  "defmt",
  "defmt-rtt",
+ "nb 1.1.0",
  "panic-probe",
  "reqwest",
  "stm32f0xx-hal",
