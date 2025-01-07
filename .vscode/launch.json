@@ -24,14 +24,15 @@
                     ],
                 },
             ],
-            "runtimeExecutable": "probe-rs",
-            "runtimeArgs": ["dap-server"],
+            "runtimeArgs": [
+                "dap-server"
+            ],
             "flashingConfig": {
-              "flashingEnabled": true,
-              "haltAfterReset": false,
-              "formatOptions": {
-                "format": "elf" //!MODIFY (or remove). Valid values are: 'bin', 'hex', 'elf'(default), 'idf'
-              }
+                "flashingEnabled": true,
+                "haltAfterReset": false,
+                "formatOptions": {
+                    "format": "elf" //!MODIFY (or remove). Valid values are: 'bin', 'hex', 'elf'(default), 'idf'
+                }
             },
             "connectUnderReset": false,
             "consoleLogLevel": "Console" //Info, Debug
@@ -61,14 +62,15 @@
                     ],
                 },
             ],
-            "runtimeExecutable": "probe-rs",
-            "runtimeArgs": ["dap-server"],
+            "runtimeArgs": [
+                "dap-server"
+            ],
             "flashingConfig": {
-              "flashingEnabled": true,
-              "haltAfterReset": false,
-              "formatOptions": {
-                "format": "elf" //!MODIFY (or remove). Valid values are: 'bin', 'hex', 'elf'(default), 'idf'
-              }
+                "flashingEnabled": true,
+                "haltAfterReset": false,
+                "formatOptions": {
+                    "format": "elf" //!MODIFY (or remove). Valid values are: 'bin', 'hex', 'elf'(default), 'idf'
+                }
             },
             "connectUnderReset": false,
             "consoleLogLevel": "Console" //Info, Debug

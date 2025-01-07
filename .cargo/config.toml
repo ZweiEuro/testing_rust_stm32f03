@@ -25,3 +25,12 @@ target = "thumbv6m-none-eabi"
 [env]
 DEFMT_LOG = "info"
 CHIPSERIE = "stm32f030"
+
+
+[profile.release]
+opt-level = "z"
+lto = true      # Link-time-optimizations for further size reduction
+
+[profile.dev]
+opt-level = "s"
+debug = 2
