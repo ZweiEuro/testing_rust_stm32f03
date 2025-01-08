@@ -11,7 +11,7 @@ cortex-m-rt = "0.7.0"
 defmt = "0.3"
 defmt-rtt = "0.4"
 panic-probe = { version = "0.3", features = ["print-defmt"] }
-embassy-stm32 = { version = "0.1.0", features = [ "defmt", "memory-x", "stm32f091rc", "time-driver-tim3", "exti", "unstable-pac"] }
+embassy-stm32 = { version = "0.1.0", features = [ "defmt", "memory-x", "stm32f030f4", "time-driver-tim3", "exti", "unstable-pac"] }
 embassy-sync = { version = "0.6.1", features = ["defmt"] }
 embassy-executor = { version = "0.7.0", features = ["arch-cortex-m", "executor-thread", "executor-interrupt", "defmt"] }
 embassy-time = { version = "0.4.0", features = ["defmt", "defmt-timestamp-uptime", "tick-hz-32_768"] }
