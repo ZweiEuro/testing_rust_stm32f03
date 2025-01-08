@@ -8,7 +8,7 @@ target = "thumbv6m-none-eabi"
 DEFMT_LOG = "trace"
 
 [profile.release]
-opt-level = "z"
+debug = 2
 lto = true      # Link-time-optimizations for further size reduction
 
 [profile.dev]

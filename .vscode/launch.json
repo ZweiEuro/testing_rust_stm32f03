@@ -11,7 +11,7 @@
             "cwd": "${workspaceFolder}",
             "coreConfigs": [
                 {
-                    "programBinary": "target/thumbv6m-none-eabi/debug/blink",
+                    "programBinary": "target/thumbv6m-none-eabi/debug/hello",
                     "coreIndex": 0,
                     "svdFile": "stm32f030.svd.patched",
                     "rttEnabled": true,

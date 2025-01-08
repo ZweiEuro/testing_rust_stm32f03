@@ -13,7 +13,7 @@ defmt-rtt = "0.4"
 panic-probe = { version = "0.3", features = ["print-defmt"] }
 embassy-stm32 = { version = "0.1.0", features = [ "defmt", "memory-x", "stm32f030f4", "time-driver-tim3", "exti", "unstable-pac"] }
 embassy-sync = { version = "0.6.1", features = ["defmt"] }
-embassy-executor = { version = "0.7.0", features = ["arch-cortex-m", "executor-thread", "executor-interrupt", "defmt"] }
+embassy-executor = { version = "0.7.0", features = ["arch-cortex-m", "executor-thread", "executor-interrupt", "defmt", "task-arena-size-512"] }
 embassy-time = { version = "0.4.0", features = ["defmt", "defmt-timestamp-uptime", "tick-hz-32_768"] }
 static_cell = "2"
 portable-atomic = { version = "1.5", features = ["unsafe-assume-single-core"] }
@@ -27,8 +27,3 @@ embassy-sync= { git = "https://github.com/embassy-rs/embassy.git", rev = "06869e
 embassy-executor = { git = "https://github.com/embassy-rs/embassy.git", rev = "06869e2e85695f4528d1148dfd81700c905771c5" }
 embassy-time = { git = "https://github.com/embassy-rs/embassy.git", rev = "06869e2e85695f4528d1148dfd81700c905771c5" }
 
-[profile.release]
-debug = 2
-
-[profile.dev]
-opt-level = "s"
