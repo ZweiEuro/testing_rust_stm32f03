@@ -1,76 +1,40 @@
 #![no_std]
 #![no_main]
 
+use core::cell::RefCell;
+
+use cortex_m::interrupt::{self, Mutex};
+use cortex_m_rt::entry;
 use defmt::*;
-use embassy_executor::Spawner;
-use embassy_stm32::gpio::{Level, Output, Pull, Speed};
-use embassy_stm32::time::{hz, khz, mhz};
-use embassy_stm32::timer::input_capture::{CapturePin, InputCapture};
-use embassy_stm32::timer::{self, Channel};
-use embassy_stm32::{bind_interrupts, peripherals};
-use embassy_time::Timer;
+use embassy_stm32::{
+    gpio::{Level, Output, Speed},
+    peripherals,
+};
 use {defmt_rtt as _, panic_probe as _};
 
-/// Connect PA2 and PC13 with a 1k Ohm resistor
+static ADV_TIMER: Mutex<RefCell<Option<embassy_stm32::peripherals::TIM1>>> =
+    Mutex::new(RefCell::new(None));
 
-#[embassy_executor::task]
-async fn blinky(led: peripherals::PA4) {
+fn init_timer() {}
+
+fn toggle_led(led: peripherals::PA4) {
     let mut led = Output::new(led, Level::High, Speed::Low);
-
-    loop {
-        //info!("high");
-        led.set_high();
-        Timer::after_millis(300).await;
-
-        //info!("low");
-        led.set_low();
-        Timer::after_millis(300).await;
-    }
+    led.toggle();
 }
 
-bind_interrupts!(struct Irqs {
-    TIM1_CC => timer::CaptureCompareInterruptHandler<peripherals::TIM1>;
-});
-
-#[embassy_executor::main]
-async fn main(spawner: Spawner) {
+#[entry]
+fn main() -> ! {
     let p = embassy_stm32::init(Default::default());
 
-    unwrap!(spawner.spawn(blinky(p.PA4)));
+    interrupt::free(|cs| ADV_TIMER.borrow(cs).replace(Some(p.TIM1)));
 
-    let ch2: CapturePin<'_, peripherals::TIM1, timer::input_capture::Ch2> =
-        CapturePin::new_ch2(p.PA9, Pull::None);
+    init_timer();
 
-    let mut ic: InputCapture<'_, peripherals::TIM1> = InputCapture::new(
-        p.TIM1,
-        None,
-        Some(ch2),
-        None,
-        None,
-        Irqs,
-        hz(1000),
-        Default::default(),
-    );
+    toggle_led(p.PA4);
 
-    let mut prev_counter = 0;
+    info!("Hello, world!");
 
-    loop {
-        ic.wait_for_any_edge(Channel::Ch2).await;
-
-        let current_counter = ic.get_capture_value(Channel::Ch2);
-
-        let diff;
-
-        if prev_counter > current_counter {
-            diff = current_counter + 0xFFFF as u32 - prev_counter;
-        } else {
-            diff = current_counter - prev_counter;
-        }
-
-        info!("new capture! {}, diff {}", current_counter, diff);
-
-        prev_counter = current_counter;
-    }
+    loop {}
 }
 
 // 38188
